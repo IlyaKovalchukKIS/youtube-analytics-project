@@ -37,5 +37,5 @@ class Channel:
 
     def to_json(self, filename):
         with open(filename, "w") as f:
-            json.dump(self.__dict__, f)
+            json.dump(self.__dict__, f, indent=2)
 
