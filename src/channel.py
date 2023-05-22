@@ -26,6 +26,10 @@ class Channel:
         """Возвращающий объект для работы с YouTube API"""
         return build('youtube', 'v3', developerKey=cls.api_key)
 
+    @property
+    def channel_id(self):
+        return self.__channel_id
+
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
         channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
