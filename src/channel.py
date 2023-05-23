@@ -19,7 +19,22 @@ class Channel:
         self.url = f'https://www.youtube.com/channel/{channel_id}'
         self.count_subscribers = channel['items'][0]['statistics']['subscriberCount']
         self.video_count = channel['items'][0]['statistics']['videoCount']
-        self.viewCount = channel['items'][0]['statistics']['viewCount']
+        self.view_count = channel['items'][0]['statistics']['viewCount']
+
+    def __str__(self):
+        return f"{self.title} ({self.url})"
+
+    def __add__(self, other):
+        return int(self.count_subscribers) + int(other.count_subscribers)
+
+    def __sub__(self, other):
+        return int(self.count_subscribers) - int(other.count_subscribers)
+
+    def __gt__(self, other):
+        return int(self.count_subscribers) > int(other.count_subscribers)
+
+    def __ge__(self, other):
+        return int(self.count_subscribers) >= int(other.count_subscribers)
 
     @classmethod
     def get_service(cls):
@@ -37,5 +52,5 @@ class Channel:
 
     def to_json(self, filename):
         with open(filename, "w") as f:
-            json.dump(self.__dict__, f)
+            json.dump(self.__dict__, f, indent=2)
 
