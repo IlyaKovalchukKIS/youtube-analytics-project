@@ -1,7 +1,5 @@
 import json
 import os
-
-import google
 from googleapiclient.discovery import build
 
 
@@ -21,28 +19,34 @@ class Channel:
         self.video_count = channel['items'][0]['statistics']['videoCount']
         self.view_count = channel['items'][0]['statistics']['viewCount']
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Магический метод, который возвращает ссылку на YouTube канал"""
         return f"{self.title} ({self.url})"
 
-    def __add__(self, other):
+    def __add__(self, other: type(object)) -> int:
+        """Магический метод для сложения количества подписчиков на разных каналах"""
         return int(self.count_subscribers) + int(other.count_subscribers)
 
-    def __sub__(self, other):
+    def __sub__(self, other: type(object)) -> int:
+        """Магический метод для вычитания количества подписчиков на разных каналах"""
         return int(self.count_subscribers) - int(other.count_subscribers)
 
-    def __gt__(self, other):
+    def __gt__(self, other) -> bool:
+        """Магический метод для сравнения количества подписчиков на разных каналах"""
         return int(self.count_subscribers) > int(other.count_subscribers)
 
-    def __ge__(self, other):
+    def __ge__(self, other) -> bool:
+        """Магический метод для сравнения количества подписчиков на разных каналах"""
         return int(self.count_subscribers) >= int(other.count_subscribers)
 
     @classmethod
-    def get_service(cls):
+    def get_service(cls) -> build:
         """Возвращающий объект для работы с YouTube API"""
         return build('youtube', 'v3', developerKey=cls.api_key)
 
     @property
-    def channel_id(self):
+    def channel_id(self) -> str:
+        """Геттер для id канала"""
         return self.__channel_id
 
     def print_info(self) -> None:
@@ -50,7 +54,7 @@ class Channel:
         channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
         print(json.dumps(channel, indent=2, ensure_ascii=False))
 
-    def to_json(self, filename):
+    def to_json(self, filename) -> None:
+        """Функция сохраняющая в файл значения атрибутов класса"""
         with open(filename, "w") as f:
             json.dump(self.__dict__, f, indent=2)
-
