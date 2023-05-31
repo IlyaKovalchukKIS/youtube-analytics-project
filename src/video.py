@@ -26,7 +26,7 @@ class Video:
         self.like_count: int = video_response['items'][0]['statistics']['likeCount']
         self.comment_count: int = video_response['items'][0]['statistics']['commentCount']
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Магический метод (__str__) который выводит название видео"""
         return self.video_title
 
